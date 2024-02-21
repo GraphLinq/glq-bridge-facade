@@ -28,7 +28,12 @@ app.get('/api/v1/bridge_requests', async (req, res) => {
         // Attempt to parse the retrieved value as JSON
         try {
             const parsedValue = JSON.parse(value);
-            res.json(parsedValue); // Send the parsed JSON as the response
+            if(req.query.addr != null) {
+                res.json(parsedValue.filter(x => x.from == req.query.addr)); // Send the parsed JSON as the response
+            }
+            else {
+                res.json(parsedValue); // Send the parsed JSON as the response
+            }
         } catch (parseError) {
             // If parsing fails, send an error response
             console.error(parseError);
